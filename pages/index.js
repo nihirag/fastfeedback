@@ -1,7 +1,9 @@
 import Head from "next/head";
+import { useAuth } from "../lib/auth";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const auth = useAuth();
   return (
     <div className={styles.container}>
       <Head>
@@ -10,42 +12,22 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Fast Feedback</h1>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <h1 className={styles.title}>FastFeedback</h1>
+        {auth.user ? (
+          <div>
+            <p>Email: {auth.user.email}</p>
+            <button onClick={(e) => auth.signout()}>Sign Out</button>
+          </div>
+        ) : (
+          <div>
+            <button onClick={(e) => auth.signinWithGitHub()}>
+              Sign In Github
+            </button>
+            <button onClick={(e) => auth.signinWithGoogle()}>
+              Sign In Google
+            </button>
+          </div>
+        )}
       </main>
 
       <footer className={styles.footer}>
